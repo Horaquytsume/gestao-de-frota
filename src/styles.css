@@ -1,0 +1,213 @@
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #e8ecf7;
+  background: #0b1020;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --surface: rgba(20, 27, 48, 0.92);
+  --surface-soft: #171f37;
+  --border: rgba(161, 174, 214, 0.16);
+  --text: #e8ecf7;
+  --muted: #9ca8c4;
+  --cyan: #35d6ff;
+  --violet: #9d8cff;
+  --pink: #ff71a8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(53, 214, 255, 0.12), transparent 36rem),
+    radial-gradient(ellipse at 94% 7%, rgba(216, 107, 255, 0.12), transparent 34rem),
+    #0b1020;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: 0.48; }
+
+.app-shell { min-height: 100vh; padding: 34px 20px 24px; }
+.app-container { width: min(1180px, 100%); margin: 0 auto; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+  padding: 24px 28px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(20, 27, 48, 0.96), rgba(24, 27, 54, 0.9));
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+}
+
+.brand-block { display: flex; align-items: center; gap: 17px; }
+.brand-icon {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  border: 1px solid rgba(95, 210, 255, 0.32);
+  border-radius: 17px;
+  background: linear-gradient(145deg, rgba(53, 214, 255, 0.18), rgba(216, 107, 255, 0.2));
+  font-size: 27px;
+}
+
+.eyebrow { margin: 0 0 5px; color: #a5b2d0; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; }
+h1, h2, h3, p { margin-top: 0; }
+h1, h2, h3 { font-family: 'Segoe UI', system-ui, sans-serif; }
+h1 { margin: 0; color: #f7f8ff; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -0.04em; }
+.muted { margin: 6px 0 0; color: var(--muted); font-size: 0.91rem; }
+
+.odometer-card {
+  min-width: 190px;
+  padding: 12px 17px;
+  border: 1px solid rgba(53, 214, 255, 0.22);
+  border-radius: 16px;
+  background: rgba(53, 214, 255, 0.07);
+  text-align: right;
+}
+.odometer-label { display: block; margin-bottom: 3px; color: #9aa8c7; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.odometer-card strong { color: #63dcff; font-family: 'Segoe UI', system-ui, sans-serif; font-size: 1.55rem; }
+.odometer-card small { font-size: 0.9rem; }
+
+.dashboard-grid { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); align-items: start; gap: 22px; }
+.left-column { display: grid; gap: 22px; }
+.panel {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 16px 46px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(12px);
+}
+.section-heading { display: flex; align-items: center; gap: 13px; margin-bottom: 21px; }
+.section-heading h2 { margin: 0; color: #f1f3fb; font-size: 1.12rem; letter-spacing: -0.025em; }
+.section-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(216, 107, 255, 0.23);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(53, 214, 255, 0.13), rgba(216, 107, 255, 0.16));
+  font-size: 20px;
+}
+.section-heading .eyebrow { margin-bottom: 2px; color: #9f8dff; }
+
+.fuel-form { display: grid; gap: 16px; }
+.field { display: grid; min-width: 0; gap: 7px; color: #c7d0e5; font-size: 0.82rem; font-weight: 600; }
+.field-full { width: 100%; }
+.field small { color: #8290ae; font-size: 0.72rem; font-weight: 400; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.input-with-suffix { position: relative; }
+.input-with-suffix input { padding-right: 42px; }
+.input-with-suffix > span {
+  position: absolute;
+  top: 50%;
+  right: 13px;
+  transform: translateY(-50%);
+  color: #8996b4;
+  font-size: 0.78rem;
+  pointer-events: none;
+}
+input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid rgba(165, 178, 213, 0.2);
+  border-radius: 11px;
+  outline: none;
+  background: #0f1528;
+  color: #f1f4ff;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+input::placeholder { color: #6f7b97; }
+input:focus { border-color: rgba(53, 214, 255, 0.78); box-shadow: 0 0 0 3px rgba(53, 214, 255, 0.12); }
+
+.button {
+  min-height: 40px;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: transform 150ms ease, filter 150ms ease, border-color 150ms ease;
+}
+.button:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.08); }
+.button-primary {
+  min-height: 46px;
+  background: linear-gradient(100deg, #20bde8, #7d6cf0 55%, #d65ed1);
+  color: #08101e;
+  box-shadow: 0 9px 24px rgba(111, 111, 246, 0.19);
+}
+.button-secondary { border-color: rgba(53, 214, 255, 0.22); background: rgba(53, 214, 255, 0.1); color: #7be4ff; }
+.button-quiet { border-color: rgba(165, 178, 213, 0.15); background: rgba(165, 178, 213, 0.06); color: #c4cce0; }
+
+.alert { margin: 0; padding: 11px 13px; border: 1px solid; border-radius: 11px; font-size: 0.82rem; line-height: 1.45; }
+.alert-error { border-color: rgba(255, 113, 168, 0.32); background: rgba(255, 113, 168, 0.09); color: #ffabc9; }
+.alert-warning { margin-bottom: 20px; border-color: rgba(255, 200, 87, 0.3); background: rgba(255, 200, 87, 0.08); color: #ffdf9a; }
+
+.empty-state { display: grid; justify-items: center; gap: 7px; padding: 25px 12px 14px; color: #99a6c1; text-align: center; }
+.empty-state > span { font-size: 1.8rem; }
+.empty-state p { margin: 0; color: #c8d0e2; font-size: 0.9rem; font-weight: 600; }
+.empty-state small { color: #818daa; font-size: 0.77rem; }
+.history-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.history-item { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 14px; border: 1px solid rgba(165, 178, 213, 0.1); border-radius: 13px; background: rgba(255, 255, 255, 0.025); }
+.history-item > div:first-child { display: grid; gap: 4px; }
+.history-item strong { color: #d6c8ff; font-family: 'Segoe UI', system-ui, sans-serif; font-size: 1rem; }
+.history-item span { color: #8f9bb6; font-size: 0.74rem; }
+.history-values { display: grid; gap: 4px; text-align: right; }
+.history-values span { color: #c2cbe0; font-size: 0.78rem; }
+
+.maintenance-panel { display: grid; gap: 0; }
+.maintenance-panel .section-heading { margin-bottom: 12px; }
+.panel-intro { margin: 0 0 16px; color: #9ca8c4; font-size: 0.81rem; line-height: 1.5; }
+.maintenance-list { display: grid; gap: 11px; }
+.maintenance-card { padding: 14px; border: 1px solid rgba(165, 178, 213, 0.14); border-radius: 15px; background: rgba(255, 255, 255, 0.025); }
+.maintenance-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.maintenance-card h3 { margin: 0 0 4px; color: #e9ecf8; font-size: 0.91rem; }
+.interval-label { color: #8290ae; font-size: 0.69rem; }
+.status-pill { display: inline-flex; flex: 0 0 auto; align-items: center; padding: 5px 8px; border: 1px solid; border-radius: 999px; font-size: 0.65rem; font-weight: 700; white-space: nowrap; }
+.status-ok .status-pill { border-color: rgba(57, 220, 164, 0.2); background: rgba(57, 220, 164, 0.08); color: #7ce4bc; }
+.status-soon .status-pill { border-color: rgba(255, 200, 87, 0.28); background: rgba(255, 200, 87, 0.09); color: #ffdb8d; }
+.status-overdue .status-pill { border-color: rgba(255, 113, 168, 0.28); background: rgba(255, 113, 168, 0.1); color: #ff9fbe; }
+.status-unknown .status-pill { border-color: rgba(127, 157, 255, 0.24); background: rgba(127, 157, 255, 0.08); color: #b5c3ff; }
+.maintenance-detail { margin: 10px 0 12px; color: #9ba7c0; font-size: 0.75rem; }
+.maintenance-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 9px; }
+.maintenance-form .field { gap: 5px; font-size: 0.7rem; }
+.maintenance-form input { min-height: 38px; padding: 8px 10px; font-size: 0.78rem; }
+.maintenance-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.maintenance-actions .button { min-height: 38px; padding: 8px 10px; font-size: 0.72rem; }
+.note-box { display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 12px 13px; border: 1px solid rgba(53, 214, 255, 0.16); border-radius: 13px; background: rgba(53, 214, 255, 0.055); }
+.note-box > span { font-size: 1rem; }
+.note-box p { margin: 0; color: #a8c9d8; font-size: 0.73rem; line-height: 1.5; }
+.app-footer { display: flex; justify-content: space-between; gap: 12px; padding: 17px 3px 0; color: #737f9c; font-size: 0.72rem; }
+
+@media (max-width: 850px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .maintenance-panel { order: 2; }
+}
+
+@media (max-width: 560px) {
+  .app-shell { padding: 16px 12px 18px; }
+  .topbar { align-items: flex-start; flex-direction: column; padding: 18px; }
+  .odometer-card { width: 100%; text-align: left; }
+  .panel { padding: 17px; border-radius: 17px; }
+  .field-row { grid-template-columns: 1fr; }
+  .maintenance-form { grid-template-columns: 1fr; }
+  .maintenance-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .app-footer { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
