@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './styles.css';
+import { calculateAverage, maintenanceStatus as getMaintenanceStatus } from './logic.js';
 
 const HISTORY_KEY = 'carHistory';
 const ODOMETER_KEY = 'currentKm';
@@ -61,49 +62,25 @@ function readMaintenance() {
   }
 }
 
+function maintenanceStatus(currentKm, lastServiceKm, interval) {
+  if (lastServiceKm === undefined) {
+    return { type: 'unknown', label: 'Informe a última troca', detail: 'Cadastre a quilometragem da última manutenção.' };
+  }
+  try {
+    const { type, remaining } = getMaintenanceStatus(currentKm, lastServiceKm, interval);
+    const nextServiceKm = Number(lastServiceKm) + Number(interval);
+    if (type === 'overdue') return { type, label: remaining === 0 ? 'Troca vence agora' : 'Manutenção vencida', detail: remaining === 0 ? `Manutenção prevista aos ${formatKm(nextServiceKm)} km` : `Atrasada há ${formatKm(Math.abs(remaining))} km · prevista aos ${formatKm(nextServiceKm)} km` };
+    if (type === 'soon') return { type, label: 'Troca próxima', detail: `Faltam ${formatKm(remaining)} km · prevista aos ${formatKm(nextServiceKm)} km` };
+    return { type, label: 'Tudo em dia', detail: `Próxima aos ${formatKm(nextServiceKm)} km · faltam ${formatKm(remaining)} km` };
+  } catch {
+    return { type: 'unknown', label: 'Confira a quilometragem', detail: 'Os dados de manutenção não são válidos para esse hodômetro.' };
+  }
+}
+
 function formatKm(value) {
   return new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 }).format(value);
 }
 
-function maintenanceStatus(currentKm, lastServiceKm, interval) {
-  if (lastServiceKm === undefined) {
-    return {
-      type: 'unknown',
-      label: 'Informe a última troca',
-      detail: 'Cadastre a quilometragem da última manutenção.',
-    };
-  }
-
-  const nextServiceKm = lastServiceKm + interval;
-  const remaining = nextServiceKm - currentKm;
-
-  if (remaining < 0) {
-    return {
-      type: 'overdue',
-      label: 'Manutenção vencida',
-      detail: `Atrasada há ${formatKm(Math.abs(remaining))} km · prevista aos ${formatKm(nextServiceKm)} km`,
-    };
-  }
-  if (remaining === 0) {
-    return {
-      type: 'overdue',
-      label: 'Troca vence agora',
-      detail: `Manutenção prevista aos ${formatKm(nextServiceKm)} km`,
-    };
-  }
-  if (remaining <= 1_500) {
-    return {
-      type: 'soon',
-      label: 'Troca próxima',
-      detail: `Faltam ${formatKm(remaining)} km · prevista aos ${formatKm(nextServiceKm)} km`,
-    };
-  }
-  return {
-    type: 'ok',
-    label: 'Tudo em dia',
-    detail: `Próxima aos ${formatKm(nextServiceKm)} km · faltam ${formatKm(remaining)} km`,
-  };
-}
 
 export default function CarManagementApp() {
   const [history, setHistory] = useState(readHistory);
@@ -159,7 +136,7 @@ export default function CarManagementApp() {
       kmTotal,
       tripKm,
       liters,
-      average: Number((tripKm / liters).toFixed(2)),
+      average: calculateAverage(tripKm, liters),
     };
 
     setHistory((previous) => [newRecord, ...previous]);
